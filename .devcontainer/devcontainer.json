@@ -1,0 +1,31 @@
+{
+  "name": "Java 22 Development",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "features": {
+    "ghcr.io/devcontainers/features/git:1": {},
+    "ghcr.io/devcontainers/features/github-cli:1": {}
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "vscjava.vscode-java-pack",
+        "redhat.java",
+        "vscjava.vscode-maven",
+        "vscjava.vscode-gradle"
+      ],
+      "settings": {
+        "java.configuration.runtimes": [
+          {
+            "name": "JavaSE-22",
+            "path": "/usr/lib/jvm/java-22-openjdk"
+          }
+        ],
+        "java.compile.nullAnalysis.mode": "automatic"
+      }
+    }
+  },
+  "postCreateCommand": "java --version",
+  "remoteUser": "vscode"
+}
