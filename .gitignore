@@ -1,0 +1,38 @@
+# Java compiled classes
+*.class
+web/WEB-INF/classes/
+
+# IDE files
+.vscode/
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+*.tmp
+*.temp
+
+# Build artifacts
+target/
+build/
+dist/
+out/
+
+# WAR files (comment out if you want to include them)
+*.war
+
+# Java package files
+*.jar
+*.ear
+*.zip
+*.tar.gz
+*.rar

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="HelloWorldWeb" default="war" basedir=".">
+    <description>Build file for HelloWorld web application</description>
+
+    <!-- Properties -->
+    <property name="src.dir" value="src"/>
+    <property name="build.dir" value="build"/>
+    <property name="classes.dir" value="${build.dir}/classes"/>
+    <property name="dist.dir" value="dist"/>
+    <property name="web.dir" value="web"/>
+    <property name="lib.dir" value="lib"/>
+    <property name="tomcat.home" value="/opt/tomcat"/>
+
+    <!-- Classpath -->
+    <path id="classpath">
+        <fileset dir="${tomcat.home}/lib">
+            <include name="*.jar"/>
+        </fileset>
+        <fileset dir="${lib.dir}" erroronmissingdir="false">
+            <include name="*.jar"/>
+        </fileset>
+    </path>
+
+    <!-- Init target -->
+    <target name="init">
+        <mkdir dir="${build.dir}"/>
+        <mkdir dir="${classes.dir}"/>
+        <mkdir dir="${dist.dir}"/>
+        <mkdir dir="${web.dir}"/>
+        <mkdir dir="${web.dir}/WEB-INF"/>
+        <mkdir dir="${web.dir}/WEB-INF/classes"/>
+        <mkdir dir="${src.dir}"/>
+    </target>
+
+    <!-- Compile target -->
+    <target name="compile" depends="init">
+        <javac srcdir="${src.dir}" destdir="${classes.dir}" classpathref="classpath" includeantruntime="false"/>
+        <javac srcdir="." destdir="${classes.dir}" includes="HelloWorld.java" classpathref="classpath" includeantruntime="false"/>
+    </target>
+
+    <!-- Create WAR file -->
+    <target name="war" depends="compile">
+        <copy todir="${web.dir}/WEB-INF/classes">
+            <fileset dir="${classes.dir}"/>
+        </copy>
+        <copy todir="${web.dir}/WEB-INF/classes">
+            <fileset dir="." includes="HelloWorld.class"/>
+        </copy>
+        <war destfile="${dist.dir}/HelloWorld.war" webxml="${web.dir}/WEB-INF/web.xml">
+            <fileset dir="${web.dir}"/>
+        </war>
+    </target>
+
+    <!-- Deploy to Tomcat -->
+    <target name="deploy" depends="war">
+        <copy file="${dist.dir}/HelloWorld.war" todir="${tomcat.home}/webapps"/>
+    </target>
+
+    <!-- Clean target -->
+    <target name="clean">
+        <delete dir="${build.dir}"/>
+        <delete dir="${dist.dir}"/>
+    </target>
+
+    <!-- Start Tomcat -->
+    <target name="start-tomcat">
+        <exec executable="${tomcat.home}/bin/startup.sh"/>
+    </target>
+
+    <!-- Stop Tomcat -->
+    <target name="stop-tomcat">
+        <exec executable="${tomcat.home}/bin/shutdown.sh"/>
+    </target>
+</project>
